@@ -12,7 +12,7 @@ public class Monster {
 	//maybe try a different approach where you have a method that explicitly
 	//tries to find the closest window toward protagonist
 	//without using getClosest methods
-	
+	//wait maybe the pathfinding works now?? remember to swap the movement to whenever protag uses setlocation instead of m press
 	
 	public Window getLocation() {
 		return location;
@@ -33,7 +33,7 @@ public class Monster {
 		int xDiff = protag.x-loc.x; //positive number if monster is left/above protag
 		int yDiff = protag.y-loc.y;
 		
-		if(Math.abs(xDiff)<Math.abs(yDiff)) {
+		if(Math.abs(xDiff)>Math.abs(yDiff)) {
 			System.out.println("moving horz attempt");
 			//try to move horizontally
 			Window w = xDiff>0?location.closestRight():location.closestLeft();
