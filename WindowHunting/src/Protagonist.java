@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -38,6 +40,16 @@ public void keyPressed(KeyEvent e) {
 		wPr=true;
 		}
 		break;
+	case KeyEvent.VK_M: {
+		for(Monster m: WindowHunting.monsters) {
+			Window nextWindow = m.getPathToWindow(Protagonist.getLocation());
+			if(nextWindow!=null) {
+			m.setLocation(nextWindow);
+			} else {
+				m.moveWindowAtProtag();
+			}
+		}
+	}
 	}
 }
 
@@ -67,9 +79,29 @@ public static void setLocation(Window w) {
 		location.panel.protagonistOn=false; 
 		location.repaint();
 		}
+	if(location!=w) {/*
+		for(Monster m: WindowHunting.monsters) {
+			Window nextWindow = m.getPathToWindow(w);
+			if(nextWindow!=null) {
+			m.setLocation(nextWindow);
+			} else {
+				m.moveWindowAtProtag();
+			}
+		}*/
+	}
 	location=w;
 	location.panel.protagonistOn=true;
 	location.repaint();
+}
+static void drawProtag(Graphics g) {
+	g.setColor(Color.yellow);
+	g.fillOval(WindowHunting.width*7/21, WindowHunting.height*7/21, WindowHunting.width/3, WindowHunting.height/3);
+	g.setColor(Color.blue);
+	g.fillOval(WindowHunting.width*8/21, WindowHunting.height*8/21, WindowHunting.width/3*5/7, WindowHunting.height/3*5/7);
+	g.setColor(Color.white);
+	g.fillOval(WindowHunting.width*9/21, WindowHunting.height*9/21, WindowHunting.width/3*3/7, WindowHunting.height/3*3/7);
+	g.setColor(Color.red);
+	g.fillOval(WindowHunting.width*10/21, WindowHunting.height*10/21, WindowHunting.width/3*1/7, WindowHunting.height/3*1/7);
 }
 
 }

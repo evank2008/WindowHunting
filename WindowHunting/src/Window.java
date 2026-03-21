@@ -7,6 +7,8 @@ import java.awt.event.ComponentEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.sun.java.swing.plaf.windows.resources.windows;
+
 public class Window extends JFrame{
 	private boolean isReal=true;
 	private static int perpendicularMaxRect=300;
@@ -30,53 +32,73 @@ static int number=0;
 		isReal=false;
 		setTitle("aaaaaaaa");
 	}
-	public Window closestLeft() {
+	public Window closestLeft(int...ignored) {
 		Window closest=this;
 		int dist=Integer.MAX_VALUE;
-		for(Window w: WindowHunting.windows) {
+		for(int j = 0;j<WindowHunting.windows.size();j++) {
+			boolean containedInIgnored=false;
+			for(int in: ignored) {
+				if(in==j) {containedInIgnored=true;break;}
+			} if(containedInIgnored) continue;
+			Window w = WindowHunting.windows.get(j);
 			if(w==this) continue;
 			int i;
-			if(w.isReal&&(i=getLocation().x-w.getLocation().x)<dist&&i>0&&Math.abs(w.getLocation().y-getLocation().y)<=perpendicularMaxRect) {
+			if(w.isReal&&(i=(getLocation().x-w.getLocation().x))<dist&&i>0&&Math.abs(w.getLocation().y-getLocation().y)<=perpendicularMaxRect) {
 				dist=i;
 				closest=w;
 			}
 		}
 		return closest;
 	}
-	public Window closestRight() {
+	public Window closestRight(int...ignored) {
 		Window closest=this;
 		int dist=Integer.MAX_VALUE;
-		for(Window w: WindowHunting.windows) {
+		for(int j = 0;j<WindowHunting.windows.size();j++) {
+			boolean containedInIgnored=false;
+			for(int in: ignored) {
+				if(in==j) {containedInIgnored=true;break;}
+			} if(containedInIgnored) continue;
+			Window w = WindowHunting.windows.get(j);
 			if(w==this) continue;
 			int i;
-			if((i=w.getLocation().x-getLocation().x)<dist&&i>0&&Math.abs(w.getLocation().y-getLocation().y)<=perpendicularMaxRect) {
+			if((i=(w.getLocation().x-getLocation().x))<dist&&i>0&&Math.abs(w.getLocation().y-getLocation().y)<=perpendicularMaxRect) {
 				dist=i;
 				closest=w;
 			}
 		}
 		return closest;
 	}
-	public Window closestUp() {
+	public Window closestUp(int...ignored) {
 		Window closest=this;
 		int dist=Integer.MAX_VALUE;
-		for(Window w: WindowHunting.windows) {
+		for(int j = 0;j<WindowHunting.windows.size();j++) {
+			boolean containedInIgnored=false;
+			for(int in: ignored) {
+				if(in==j) {containedInIgnored=true;break;}
+			} if(containedInIgnored) continue;
+			Window w = WindowHunting.windows.get(j);
 			if(w==this) continue;
 			int i;
-			if((i=getLocation().y-w.getLocation().y)<dist&&i>0&&Math.abs(w.getLocation().x-getLocation().x)<=perpendicularMaxRect) {
+			if((i=(getLocation().y-w.getLocation().y))<dist&&i>0&&Math.abs(w.getLocation().x-getLocation().x)<=perpendicularMaxRect) {
 				dist=i;
 				closest=w;
 			}
 		}
 		return closest;
 	}
-	public Window closestDown() {
+	public Window closestDown(int...ignored) {
 		//found x value would be bigger than this's by smallest amount
 		Window closest=this;
 		int dist=Integer.MAX_VALUE;
-		for(Window w: WindowHunting.windows) {
+		for(int j = 0;j<WindowHunting.windows.size();j++) {
+			boolean containedInIgnored=false;
+			for(int in: ignored) {
+				if(in==j) {containedInIgnored=true;break;}
+			} if(containedInIgnored) continue;
+			Window w = WindowHunting.windows.get(j);
 			if(w==this) continue;
 			int i;
-			if((i=w.getLocation().y-getLocation().y)<dist&&i>0&&Math.abs(w.getLocation().x-getLocation().x)<=perpendicularMaxRect) {
+			if((i=(w.getLocation().y-getLocation().y))<dist&&i>0&&Math.abs(w.getLocation().x-getLocation().x)<=perpendicularMaxRect) {
 				dist=i;
 				closest=w;
 			}
@@ -101,21 +123,14 @@ class Panel extends JPanel {
 			return;
 		}
 		if(protagonistOn&&monsterOn) {
-			//idk
+			g.drawString("you died by the monster. ahhhh(dats you yelling)", 0, g.getClipBounds().height/2);
 		}
-		if(protagonistOn) {
+		else if(protagonistOn) {
 			//draw protag
-			//uk axis and allies flag token?
-			g.setColor(Color.yellow);
-			g.fillOval(WindowHunting.width*7/21, WindowHunting.height*7/21, WindowHunting.width/3, WindowHunting.height/3);
-			g.setColor(Color.blue);
-			g.fillOval(WindowHunting.width*8/21, WindowHunting.height*8/21, WindowHunting.width/3*5/7, WindowHunting.height/3*5/7);
-			g.setColor(Color.white);
-			g.fillOval(WindowHunting.width*9/21, WindowHunting.height*9/21, WindowHunting.width/3*3/7, WindowHunting.height/3*3/7);
-			g.setColor(Color.red);
-			g.fillOval(WindowHunting.width*10/21, WindowHunting.height*10/21, WindowHunting.width/3*1/7, WindowHunting.height/3*1/7);
+			Protagonist.drawProtag(g);
 		} else {
 			//draw monster
+			Monster.drawMonster(g);
 		}
 	}
 }

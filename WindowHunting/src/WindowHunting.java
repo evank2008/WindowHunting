@@ -6,7 +6,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class WindowHunting {
-public static ArrayList<Window> windows;
+	public static ArrayList<Window> windows;
+	public static ArrayList<Monster> monsters;
 static int width=300;
 static int height=300;
 	public static void main(String[] args) {
@@ -14,10 +15,13 @@ static int height=300;
 	}
 	public WindowHunting() {
 		windows = new ArrayList<Window>();
-		
+		monsters=new ArrayList<Monster>();
 		make(5);
 		
 		Protagonist.setLocation(windows.get(0));
+		monsters.add(new Monster());
+		monsters.get(0).setLocation(windows.get(4));
+		windows.get(1).getGraphics().drawString("", 0, 0);
 	}
 	void make(int amount) {
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
