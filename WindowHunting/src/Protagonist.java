@@ -40,7 +40,7 @@ public void keyPressed(KeyEvent e) {
 		wPr=true;
 		}
 		break;
-	case KeyEvent.VK_M: {
+	/*case KeyEvent.VK_M: {
 		for(Monster m: WindowHunting.monsters) {
 			Window nextWindow = m.getPathToWindow(Protagonist.getLocation());
 			if(nextWindow!=null) {
@@ -49,7 +49,7 @@ public void keyPressed(KeyEvent e) {
 				m.moveWindowAtProtag();
 			}
 		}
-	}
+	}*/
 	}
 }
 
@@ -79,7 +79,7 @@ public static void setLocation(Window w) {
 		location.panel.protagonistOn=false; 
 		location.repaint();
 		}
-	if(location!=w) {/*
+	if(location!=w) {
 		for(Monster m: WindowHunting.monsters) {
 			Window nextWindow = m.getPathToWindow(w);
 			if(nextWindow!=null) {
@@ -87,7 +87,7 @@ public static void setLocation(Window w) {
 			} else {
 				m.moveWindowAtProtag();
 			}
-		}*/
+		}
 	}
 	location=w;
 	location.panel.protagonistOn=true;
