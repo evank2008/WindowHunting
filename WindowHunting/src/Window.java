@@ -7,11 +7,9 @@ import java.awt.event.ComponentEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import com.sun.java.swing.plaf.windows.resources.windows;
-
 public class Window extends JFrame{
 	private boolean isReal=true;
-	private static int perpendicularMaxRect=300;
+	public static int perpendicularMaxRect=300;
 	Panel panel;
 static int number=0;
 	public Window(int width, int height) {

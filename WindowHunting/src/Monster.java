@@ -4,6 +4,7 @@ import java.awt.Point;
 
 public class Monster {
 	private Window location;
+	int windowMovingDistance=Window.perpendicularMaxRect*3/4; //keep in mind perpendicular movement value is 300 atm
 	//TODO figure out pathfinding. current issue is that if monster is, for example, down and right of protag
 	//and it decides to try moving up
 	//but the closest window up if to the right
@@ -60,6 +61,15 @@ public class Monster {
 	}
 	void moveWindowAtProtag() {
 		System.out.println("rahhhh");
+		int distX = Protagonist.getLocation().getLocation().x - location.getLocation().x;
+		int toMoveX;
+		if(Math.abs(distX)<windowMovingDistance) {
+			toMoveX=distX;
+		} else {
+			toMoveX=distX>0?windowMovingDistance:-windowMovingDistance;
+		}
+		location.setLocation(location.getLocation().x+toMoveX, location.getLocation().y);
+		
 	}
 	static void drawMonster(Graphics g) {
 		g.setColor(Color.red);
