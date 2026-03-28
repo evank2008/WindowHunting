@@ -40,7 +40,12 @@ public void keyPressed(KeyEvent e) {
 		wPr=true;
 		}
 		break;
-	/*case KeyEvent.VK_M: {
+	case KeyEvent.VK_ESCAPE:
+		System.exit(0);
+		break;
+	case KeyEvent.VK_M:
+		location.setMoveable(!location.isUndecorated());
+		/*case KeyEvent.VK_M: {
 		for(Monster m: WindowHunting.monsters) {
 			Window nextWindow = m.getPathToWindow(Protagonist.getLocation());
 			if(nextWindow!=null) {
@@ -75,8 +80,9 @@ public static Window getLocation() {
 	return location;
 }
 public static void setLocation(Window w) {
+	if(location==w) {return;}
 	if(location!=null) {
-		location.panel.protagonistOn=false; 
+		location.setProtagOn(false); 
 		location.repaint();
 		}
 	if(location!=w) {
@@ -88,10 +94,11 @@ public static void setLocation(Window w) {
 				m.moveWindowAtProtag();
 			}
 		}
+		location=w;
+		location.setProtagOn(true);
+		location.repaint();
 	}
-	location=w;
-	location.panel.protagonistOn=true;
-	location.repaint();
+	
 }
 static void drawProtag(Graphics g) {
 	g.setColor(Color.yellow);

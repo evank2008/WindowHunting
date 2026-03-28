@@ -20,11 +20,11 @@ public class Monster {
 	}
 	public  void setLocation(Window w) {
 		if(location!=null) {
-			location.panel.monsterOn=false; 
+			location.setMonsterOn(false);
 			location.repaint();
 			}
 		location=w;
-		location.panel.monsterOn=true;
+		location.setMonsterOn(true);
 		location.repaint();
 	}
 	public Window getPathToWindow(Window win) {

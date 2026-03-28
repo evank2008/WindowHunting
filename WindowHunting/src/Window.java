@@ -1,8 +1,13 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.Area;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -10,25 +15,59 @@ import javax.swing.JPanel;
 public class Window extends JFrame{
 	private boolean isReal=true;
 	public static int perpendicularMaxRect=300;
+	private boolean protagonistOn=false;
+	private boolean monsterOn = false;
 	Panel panel;
+	private boolean moveable=true;
 static int number=0;
 	public Window(int width, int height) {
 		super(""+number);
 		number++;
 		//setSize(width,height);
 		setResizable(false);
-		panel = new Panel();
-		panel.setPreferredSize(new Dimension(width,height));
+		panel = new Panel(this, width, height);
+		
 		add(panel);
 		pack();
 		
+		
 		setVisible(true);
 		addKeyListener(new Protagonist());
+		addComponentListener(new ComponentAdapter() {
+            public void componentMoved(ComponentEvent e) {
+            	System.out.println("mpove attempt "+getTitle()+" "+e.paramString());
+                if(WindowHunting.explodingEnabled&&!isMoveable()) {
+                	System.out.println("you have died");
+                	System.exit(0);
+                }
+            }
+        });
 		WindowHunting.windows.add(this);
+		
 	}
 	private Window() {
 		isReal=false;
 		setTitle("aaaaaaaa");
+	}
+	public boolean getProtagOn() {
+		return protagonistOn;
+	}
+	public void setProtagOn(boolean b) {
+		protagonistOn=b;
+		setMoveable(!b);
+	}
+	public boolean getMonsterOn() {
+		return monsterOn;
+	}
+	public void setMonsterOn(boolean b) {
+		monsterOn=b;
+		setMoveable(!b);
+	}
+	public void setMoveable(boolean b) {
+		moveable=b;
+	}
+	public boolean isMoveable() {
+		return moveable;
 	}
 	public Window closestLeft(int...ignored) {
 		Window closest=this;
@@ -109,21 +148,35 @@ static int number=0;
 
 }
 class Panel extends JPanel {
-	public boolean protagonistOn=false;
-	public boolean monsterOn = false;
-	public Panel() {
+	
+	private Window parent;
+	private final  Area border;
+	int thickness = 10;
+	public Panel(Window w, int width, int height) {
 		super();
+		parent = w;
+		setPreferredSize(new Dimension(width,height));
+		
+		border = new Area(new Rectangle(0,0,getPreferredSize().width,getPreferredSize().height));
+		Shape hole = new Rectangle(thickness,thickness,getPreferredSize().width-2*thickness,getPreferredSize().height-2*thickness);
+		border.subtract(new Area(hole));
 	}
 	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		if(!protagonistOn&&!monsterOn) {
+	public void paintComponent(Graphics gg) {
+		super.paintComponent(gg);
+		Graphics2D g = (Graphics2D)gg;
+		if(!parent.isMoveable()) {
+			g.setColor(Color.red);
+			g.fill(border);
+		}
+		
+		if(!parent.getProtagOn()&&!parent.getMonsterOn()) {
 			return;
 		}
-		if(protagonistOn&&monsterOn) {
+		if(parent.getProtagOn()&&parent.getMonsterOn()) {
 			g.drawString("you died by the monster. ahhhh(dats you yelling)", 0, g.getClipBounds().height/2);
 		}
-		else if(protagonistOn) {
+		else if(parent.getProtagOn()) {
 			//draw protag
 			Protagonist.drawProtag(g);
 		} else {
